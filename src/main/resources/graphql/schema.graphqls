@@ -1,0 +1,73 @@
+scalar Date
+
+type Mutation {
+    createMerchant(merchant: CreateMerchant):ReadMerchant
+}
+
+type Query {
+    getMerchants: [ReadMerchant]
+    getMerchantById(id: ID): ReadMerchant
+}
+
+
+type ReadMerchant implements BaseEntity{
+    id: ID
+    name: String!
+    surname: String!
+    taxNumber: String!
+    identityNumber: String!
+    companyType: CompanyType!
+    ipAddress: String
+    createdAt: Date
+    address: ReadAddress
+    contacts: [ReadContact]
+}
+
+type ReadContact {
+    id: ID
+    name: String
+    surname: String
+    email: String
+    phone: String
+}
+type ReadAddress {
+    id: ID
+    city: String
+    country: String
+    county: String
+    zipCode: String
+
+}
+
+interface BaseEntity {
+    ipAddress: String
+    createdAt: Date
+}
+
+input CreateMerchant {
+    name: String!
+    surname: String!
+    taxNumber: String!
+    identityNumber: String!
+    companyType: CompanyType!
+    address: CreateAddress
+    contacts: [CreateContact]
+}
+input CreateContact {
+    name: String!
+    surname: String!
+    email: String!
+    phone: String!
+}
+
+input CreateAddress {
+    county: String!
+    city: String!
+    country: String!
+    zipCode: String!
+}
+
+enum CompanyType {
+    INDIVIDUAL,
+    COOPERATIVE
+}
